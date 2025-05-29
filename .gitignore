@@ -3,9 +3,6 @@ __pycache__/
 *.pkl
 *.pt
 *.safetensors
-outputs/
-*.mp4
-*.png
 venv/
 .cache/
 hf_cache/
