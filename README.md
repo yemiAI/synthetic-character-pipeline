@@ -32,6 +32,10 @@ docker run --rm --gpus all -v $(pwd)/outputs:/app/outputs flux-character-gen
 
 Generated outputs will appear in the `outputs/` directory.
 
+## LoRA Model
+
+This project uses the [Flux Realism LoRA from XLabs-AI](https://huggingface.co/XLabs-AI/flux-RealismLora/tree/main) for consistent character features.
+
 ## Requirements
 
 - NVIDIA GPU with compatible drivers
