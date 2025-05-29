@@ -18,11 +18,16 @@ pip install -r requirements.txt
 
 ## Usage
 
+
 ### Build the Docker image:
 
 ```bash
 docker build -t flux-character-gen .
 ```
+
+## Run generator locally:
+
+python inference/generate.py --use_refiner --allow_nsfw
 
 ### Run the generator:
 
