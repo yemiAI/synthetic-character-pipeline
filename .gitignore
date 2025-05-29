@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pkl
+*.pt
+*.safetensors
+outputs/
+*.mp4
+*.png
+venv/
+.cache/
+hf_cache/
+Dockerfile~  # temp edits
+*.log
