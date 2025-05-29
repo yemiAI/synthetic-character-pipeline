@@ -14,15 +14,21 @@ If you're running the pipeline **outside Docker**, install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
 
 ## Usage
 
-Build the Docker image:
+### Build the Docker image:
+
 ```bash
 docker build -t flux-character-gen .
+```
 
-## Run the generator
+### Run the generator:
+
+```bash
 docker run --rm --gpus all -v $(pwd)/outputs:/app/outputs flux-character-gen
+```
 
 Generated outputs will appear in the `outputs/` directory.
 
@@ -33,8 +39,7 @@ Generated outputs will appear in the `outputs/` directory.
 
 ## Project Structure
 
-- `inference/` - generation scripts and pipeline logic
-- `models/loras/` - LoRA adapter configs
-- `tests/` - unit and integration tests
-- `outputs/` - generated images (created at runtime)
-
+- `inference/` – generation scripts and pipeline logic  
+- `models/loras/` – LoRA adapter configs  
+- `tests/` – unit and integration tests  
+- `outputs/` – generated images (created at runtime)
