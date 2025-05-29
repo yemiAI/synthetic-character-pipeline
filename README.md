@@ -19,7 +19,7 @@ pip install -r requirements.txt
 ## Usage
 
 
-### Build the Docker image:
+### Build the docker image:
 
 ```bash
 docker build -t flux-character-gen .
