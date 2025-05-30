@@ -1,0 +1,116 @@
+This document describes the internal architecture and flow of the synthetic-character-pipeline, which generates photorealistic and consistent flux character images using Stable Diffusion XL and LoRA adapters.
+
+##Directory hierarchy
+
+synthetic-character-pipeline/
+|
+|-- inference/
+|   |-- generate.py
+|   |-- consistency_check.py
+|   |-- prompt_template.json
+|
+|-- models/
+|   |-- adapters/
+|   |-- embeddings/
+|   |-- loras/
+|       |-- adapter_config.json
+|       |-- lora.safetensors
+|       |-- pytorch_lora_weights.safetensors
+|
+|-- outputs/
+|   |-- image_0.png
+|   |-- image_1.png
+|
+|-- tests/
+|   |-- unit/
+|   |   |-- test_character_generator.py
+|   |-- e2e/
+|       |-- test_generate.py
+|
+|-- Dockerfile
+|-- README.md
+|-- requirements.txt
+
+
+##Overall Architecture
+
++--------------------+     +------------------------+     +-------------------+
+|  Prompt Templates  | --> |   Generation Pipeline  | --> |   Output Images   |
++--------------------+     +------------------------+     +-------------------+
+         |                          |
+         v                          v
+  [prompt_template.json]     [LoRA-weighted SDXL]
+
+
+##Workflow
+
++--------------------------+
+| Stable Diffusion XL Base |
++--------------------------+
+              |
+              v
+     Load LoRA Weights
+              |
+              v
++--------------------------+
+|  Compose Full Prompt     |
+| (IDENTITY_TOKEN + Scene) |
++--------------------------+
+              |
+              v
+       Run SDXL Inference
+              |
+              v
++--------------------------+
+| Optional SDXL Refiner    |
++--------------------------+
+              |
+              v
+         Save Image to
+         outputs/image_#.png
+
+
+##Component Roles
+
+inference/
+
+generate.py: Main script that loads the SDXL pipeline, injects LoRA, applies prompt templates, runs inference, and saves outputs.
+
+The pipeline supports two major command-line flags via generate.py:
+
+    --use_refiner: Enables post-processing with the Stable Diffusion XL Refiner. Recommended for improved sharpness and photorealism, especially on faces and clothing.
+
+    --allow_nsfw: Disables any built-in safety checks (if available in the model variant), useful for generating anatomically detailed outputs in realistic contexts.
+
+consistency_check.py (future use): Tools for ensuring generated characters retain likeness across prompts.
+
+prompt_template.json: Scene contexts (e.g. "in a forest") used to vary the generation.
+
+models/loras/
+
+LoRA Files: Used to bias the SDXL pipeline toward a particular character identity, enabling zero-shot consistency.
+
+outputs/
+
+Contains generated .png images. Automatically populated during runtime.
+
+tests/
+
+Unit and E2E tests to ensure correct LoRA injection and image generation.
+
+
+
+##Known Limitations
+
+GPU Demand: Requires >16GB VRAM for smooth execution with refiner.
+
+No Live Feedback: No automatic facial consistency evaluation yet.
+
+Command Line Only: No UI/API currently integrated.
+
+
+
+
+ 	
+
+ 
